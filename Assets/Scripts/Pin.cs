@@ -9,10 +9,16 @@ public class Pin : MonoBehaviour
     
     public event Action<Pin> PinDestroyEvent;
 
+    private bool _checkCollision = true;
+
     private void OnCollisionEnter(Collision other)
     {
+        if (!_checkCollision) return;
+        
         if (((1 << other.gameObject.layer) & collisionLayer) != 0)
         {
+            _checkCollision = false;
+            
             StartCoroutine(AddPointAndDestroy());
         }
     }
